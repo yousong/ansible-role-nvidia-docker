@@ -1,22 +1,29 @@
 ---
-- name: ensure facts directory exists
-  file:
-    path: "/etc/ansible/facts.d"
-    state: directory
-    owner: "root"
-    group: "root"
+- name: gather fact nv_os_release
+  block:
+  - name: ensure facts directory exists
+    file:
+      path: "/etc/ansible/facts.d"
+      state: directory
+      owner: "root"
+      group: "root"
 
-- name: setup custom facts
-  copy:
-    src: "etc/ansible/facts.d/nv_os_release.fact"
-    dest: "/etc/ansible/facts.d/nv_os_release.fact"
-    owner: "root"
-    group: "root"
-    mode: "0755"
+  - name: setup custom facts
+    copy:
+      src: "etc/ansible/facts.d/nv_os_release.fact"
+      dest: "/etc/ansible/facts.d/nv_os_release.fact"
+      owner: "root"
+      group: "root"
+      mode: "0755"
 
-- name: re-gather facts
-  setup: filter=ansible_local
-          
+  - name: re-gather facts
+    setup: filter=ansible_local
+
+  - name: set nvidia_os_release
+    set_fact:
+      nvidia_os_release: ansible_local['nv_os_release']['nv_os_release']
+  when: not nvidia_os_release
+
 - name: check distro
   fail:
     msg: "distro {{ ansible_os_family }} not supported"

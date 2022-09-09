@@ -29,3 +29,5 @@ nvidia_docker_skip_docker_reload: false
 # Replacing the reload var with the restart var, using this by default for
 # backward compatibility
 nvidia_docker_skip_docker_restart: "{{ nvidia_docker_skip_docker_reload }}"
+
+nvidia_os_release: ''
