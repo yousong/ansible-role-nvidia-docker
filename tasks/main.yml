@@ -19,8 +19,8 @@
           
 - name: check distro
   fail:
-    msg: "distro {{ ansible_facts['distribution'] }} not supported"
-  when: ansible_facts['distribution'] != 'Ubuntu' and ansible_os_family != 'RedHat'
+    msg: "distro {{ ansible_os_family }} not supported"
+  when: ansible_os_family != 'Ubuntu' and ansible_os_family != 'RedHat'
 
 - name: ubuntu pre-install tasks
   include_tasks: ubuntu-pre-install.yml
